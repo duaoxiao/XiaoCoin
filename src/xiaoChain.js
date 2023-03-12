@@ -1,17 +1,20 @@
 const sha256 = require("crypto-js/sha256");
 const ecLib = require("elliptic").ec;
 const ec = new ecLib("secp256k1"); // curve namen
+
+
+//交易的数据信息
 class Transaction {
   constructor(from, to, amount) {
     this.from = from;
     this.to = to;
     this.amount = amount;
   }
-
+  //数据信息的哈希值
   computeHash() {
     return sha256(`${this.from}${this.to}${this.amount}`).toString();
   }
-
+  //
   sign(privateKey) {
     this.signature = privateKey.sign(this.computeHash(), "base64").toDER("hex");
   }
